@@ -20,7 +20,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpHeaders.ALLOW).permitAll()
                 .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
         ;
 
 
