@@ -1,17 +1,20 @@
 package com.springboot3.jwtauthentication.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 
 import java.util.Set;
 
-@Data
+
+@Getter
+@Setter
 @Table
 @Entity
 public class User {
+    //private Integer id;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String userName;
     private String email;
     private String password;
