@@ -23,15 +23,15 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public User registerNewUser(User user) {
-        Role role = roleRepo.findById("User").get();
-        Set<Role> userRoles = new HashSet<>();
-        userRoles.add(role);
-        user.setRole(userRoles);
-        user.setPassword(getEncodedPassword(user.getPassword()));
-
-        return userRepo.save(user);
-    }
+//    public User registerNewUser(User user) {
+//        Role role = roleRepo.findById("User").get();
+//        Set<Role> userRoles = new HashSet<>();
+//        userRoles.add(role);
+//        user.setRole(userRoles);
+//        user.setPassword(getEncodedPassword(user.getPassword()));
+//
+//        return userRepo.save(user);
+//    }
 
 //    public void initRoleAndUser() {
 //
@@ -64,7 +64,7 @@ public class UserService {
 //        userRepo.save(user);
 //    }
 
-    public String getEncodedPassword(String password) {
-        return passwordEncoder.encode(password);
-    }
+//    public String getEncodedPassword(String password) {
+//        return passwordEncoder.encode(password);
+//    }
 }

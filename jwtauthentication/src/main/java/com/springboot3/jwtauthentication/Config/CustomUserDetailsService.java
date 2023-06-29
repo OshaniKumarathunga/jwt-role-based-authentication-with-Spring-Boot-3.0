@@ -26,34 +26,40 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserRepo userRepo;
 
     @Autowired
-    private JwtGenerator jwtGenerator;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    public AuthResponseDto createJwtToken(AuthRequestDto authRequestDto) throws Exception {
-        String userName = authRequestDto.getUsername();
-        String Password = authRequestDto.getPassword();
-        authenticate(userName, Password);
-
-        UserDetails userDetails = loadUserByUsername(userName);
-        String newGeneratedToken = jwtGenerator.generateToken(userDetails);
-
-        User user = userRepo.findById(userName).get();
-        return new AuthResponseDto(user , newGeneratedToken);
+    public CustomUserDetailsService(UserRepo userRepo){
+        this.userRepo = userRepo;
     }
+
+//    @Autowired
+//    private JwtGenerator jwtGenerator;
+
+//    @Autowired
+//    private AuthenticationManager authenticationManager;
+
+//    public AuthResponseDto createJwtToken(AuthRequestDto authRequestDto) throws Exception {
+//        String userName = authRequestDto.getUsername();
+//        String Password = authRequestDto.getPassword();
+//        authenticate(userName, Password);
+//
+//        UserDetails userDetails = loadUserByUsername(userName);
+//        String newGeneratedToken = jwtGenerator.generateToken(userDetails);
+//
+//        User user = userRepo.findById(userName).get();
+//        return new AuthResponseDto(user , newGeneratedToken);
+//    }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findById(username).get();
-        if (user != null) {
-            return new org.springframework.security.core.userdetails.User(
-                    user.getUserName(),
-                    user.getPassword(),
-                    getAuthority(user)
-            );
-        } else {
-            throw new UsernameNotFoundException("User not found with username: " + username);
-        }
+        User user = userRepo.findById(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), getAuthority(user));
+//        if (user != null) {
+//            return new org.springframework.security.core.userdetails.User(
+//                    user.getUserName(),
+//                    user.getPassword(),
+//                    getAuthority(user)
+//            );
+//        } else {
+//            throw new UsernameNotFoundException("User not found with username: " + username);
+//        }
     }
 
     private Set getAuthority(User user) {
@@ -64,13 +70,13 @@ public class CustomUserDetailsService implements UserDetailsService {
         return authorities;
     }
 
-    private void authenticate(String userName, String userPassword) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, userPassword));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
-        }
-    }
+//    private void authenticate(String userName, String userPassword) throws Exception {
+//        try {
+//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, userPassword));
+//        } catch (DisabledException e) {
+//            throw new Exception("USER_DISABLED", e);
+//        } catch (BadCredentialsException e) {
+//            throw new Exception("INVALID_CREDENTIALS", e);
+//        }
+//    }
 }

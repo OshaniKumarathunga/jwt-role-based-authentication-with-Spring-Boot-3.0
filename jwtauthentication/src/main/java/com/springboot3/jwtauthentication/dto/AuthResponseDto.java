@@ -8,11 +8,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AuthResponseDto {
-    private User user;
     private String jwtToken;
+    private String tokenType = "Bearer ";
 
-    public AuthResponseDto(User user, String jwtToken) {
-        this.user = user;
+    public AuthResponseDto(String jwtToken) {
         this.jwtToken = jwtToken;
     }
 }

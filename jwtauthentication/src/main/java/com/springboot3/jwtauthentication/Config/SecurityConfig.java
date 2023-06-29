@@ -41,7 +41,7 @@ public class SecurityConfig {
         httpSecurity
                 .csrf(csrf ->csrf.disable())
                 .exceptionHandling(exception ->exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))
-                .authorizeHttpRequests(requests -> requests.requestMatchers("/authenticate").permitAll()
+                .authorizeHttpRequests(requests -> requests.requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpHeaders.ALLOW).permitAll()
                 .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
